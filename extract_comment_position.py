@@ -22,7 +22,7 @@ def code_file_split(path):#返回按照{,},\n,//,/*分割后的文件，类型�
     i = 1
     if not a:
         return [],[]
-    line = a[0]
+    line = a[0].lstrip()
     while True:
         '''
         just judge for unlimited loop
@@ -36,7 +36,7 @@ def code_file_split(path):#返回按照{,},\n,//,/*分割后的文件，类型�
                     ret.append(now_comment)
                     lines_cnt.append(i)
                 break
-            line = a[i]
+            line = a[i].lstrip(' ').lstrip('\t')
             i = i+1
         if not in_block_comment and not in_line_comment:
             if '/*' in line:
@@ -160,7 +160,7 @@ re_else = re.compile("^(\s)*else")
 re_macro = re.compile("^\#")
 re_call = re.compile("(\w)+\(.*\)")#this re should use re.search not re.match
 re_empty = re.compile("^(\s|\{|\})*$")
-re_var_def = re.compile("^(\s)*(\w)+((\w)|<|>|\:|(\*)|(\s))*( )+((\w)|<|>|\:|(\*)|(\s))*(\w)+(\[(\w)+\])?(\s)*(=|;)") #考虑了指针，模板，数组，namespace的情况
+re_var_def = re.compile("^(\s)*(\w)+((\w)|<|>|\:|(\*)|(\s))*( )+((\w)|<|>|\:|(\*)|(\s))*(\w)+(\[(\w)+\])?(\s)*(=|;|,)") #考虑了指针，模板，数组，namespace的情况
 
 
 
@@ -208,11 +208,11 @@ def match_code(splited_list, labels, lines_cnt):#match each comment to a code sn
         label = labels[i]
         snippet = splited_list[i]
         matched_label = ''
-        matced_snippet = ''
+        matched_snippet = ''
         if label == 'comment':
             if i==0:
                 matched_label = 'HEAD'
-            if i==total-1:
+            elif i==total-1:
                 matched_label = labels[i-1]
                 matched_snippet = splited_list[i-1]
             else:
@@ -227,4 +227,5 @@ def match_code(splited_list, labels, lines_cnt):#match each comment to a code sn
                     matched_snippet = ''
             matched.append((snippet, matched_snippet, matched_label, lines_cnt[i]))
     return matched
+
 
