@@ -24,7 +24,7 @@ if __name__ == '__main__':
                 mdfile.write('\n```\n\n')
 
                 mdfile.write('```c++\n')
-                code = sample_row[5].replace('[comma]', ',').replace('[enter]', '\n')]
+                code = sample_row[5].replace('[comma]', ',').replace('[enter]', '\n')
                 mdfile.write(code)
                 mdfile.write('\n```\n\n')
 
