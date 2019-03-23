@@ -4,3 +4,4 @@ opencv
 *.csv
 *.pyc
 .vscode
+sample.md
