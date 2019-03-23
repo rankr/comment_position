@@ -6,10 +6,10 @@ import func
 import extract_comment_position as ecp
 
 if __name__ == "__main__":
-	path = "/Users/apple/Documents/work1/cpp_repos/opencv/modules"
+	path = "opencv/modules"
 	file_paths = func.cpp_file_select(path)
 
-	w = open("/Users/apple/Documents/work1/result/comment_position.csv", 'w', encoding = "utf-8")
+	w = open("comment_position.csv", 'w', encoding = "utf-8")
 	w.write("file_path,comment_content,comment_end_line_number,matched_label,related_code\n")
 	#print(len(file_paths))
 	#exit()

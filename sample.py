@@ -17,17 +17,17 @@ while 1:
 			break
 a = list(s)
 a.sort()
-with open('/Users/apple/Documents/work1/code/sample.txt', 'w') as w:
+with open('sample.txt', 'w') as w:
 	for i in a:
 		w.write("%d\n"%i)
 
 
 
-a = pd.read_csv('/Users/apple/Documents/work1/result/comment_position.csv')
+a = pd.read_csv('comment_position.csv')
 res = []
-with open('/Users/apple/Documents/work1/code/sample.txt') as f:
+with open('sample.txt') as f:
     d = f.readlines()
     d = [int(i.strip()) for i in d]
     res = a.loc[d]
 
-res.to_csv('/Users/apple/Documents/work1/result/sample.csv')
+res.to_csv('sample.csv')
