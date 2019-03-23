@@ -17,7 +17,7 @@ while 1:
 			break
 a = list(s)
 a.sort()
-with open('sample.txt', 'w') as w:
+with open('result/sample.txt', 'w') as w:
 	for i in a:
 		w.write("%d\n"%i)
 
@@ -25,7 +25,7 @@ with open('sample.txt', 'w') as w:
 
 a = pd.read_csv('comment_position.csv')
 res = []
-with open('sample.txt') as f:
+with open('result/sample.txt') as f:
     d = f.readlines()
     d = [int(i.strip()) for i in d]
     res = a.loc[d]
