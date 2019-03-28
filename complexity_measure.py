@@ -93,7 +93,7 @@ def complexity_measure(string):
         if ('&' in each_line) and ('=' in each_line):
             bit_and_num += len(bit_and_pattern.findall(each_line))
     #运算符总数
-    total_operator_num = plus_num + minus_num + product_num + division_num + modulo_num + bit_or_num + bit_and_num
+    operator_total_num = plus_num + minus_num + product_num + division_num + modulo_num + bit_or_num + bit_and_num
 #    print("+:",plus_num)
 #    print("-:",minus_num)
 #    print("*:",product_num)
@@ -101,8 +101,11 @@ def complexity_measure(string):
 #    print("%:",modulo_num)
 #    print("|:",bit_or_num)
 #    print("&:",bit_and_num)
-    print("total operator number is:",total_operator_num)
-    print("operator density is:%.2f each line"%(total_operator_num/line_num))
-    
-#test code as:
-#complexity_measure("void VariationalRefinementImpl::mergeCheckerboard(Mat &dst, RedBlackBuffer &src)\n{\nint buf_j, j;\nfor (int i = 0; i < dst.rows; i++)\n{\nfloat *src_r_buf = src.red.ptr<float>(i + 1);\nfloat *src_b_buf = src.black.ptr<float>(i + 1);\nfloat *dst_buf = dst.ptr<float>(i);\nbuf_j = 1;\n\n if (i % 2 == 0)\n{\nfor (j = 0; j < dst.cols - 1; j += 2)\n{\n dst_buf[j] = src_r_buf[buf_j];\n  dst_buf[j + 1] = src_b_buf[buf_j];\n      buf_j++;\n  }\nif (j < dst.cols)\ndst_buf[j] = src_r_buf[buf_j];\n}\nelse\n{\nfor (j = 0; j < dst.cols - 1; j += 2)\n{\ndst_buf[j] = src_b_buf[buf_j];\ndst_buf[j + 1] = src_r_buf[buf_j];\nbuf_j++;\n}\nif (j < dst.cols)\ndst_buf[j] = src_b_buf[buf_j];\n}\n}\n}\n")
+    print("total operator number is:",operator_total_num)
+    op_line_rate = operator_total_num/line_num
+    print("operator density is:%.2f each line"%(op_line_rate))
+    return [line_num, max_depth, variable_total_num, operator_total_num, op_line_rate]
+
+if __name__ == '__main__':
+    #test code as:
+    complexity_measure("void VariationalRefinementImpl::mergeCheckerboard(Mat &dst, RedBlackBuffer &src)\n{\nint buf_j, j;\nfor (int i = 0; i < dst.rows; i++)\n{\nfloat *src_r_buf = src.red.ptr<float>(i + 1);\nfloat *src_b_buf = src.black.ptr<float>(i + 1);\nfloat *dst_buf = dst.ptr<float>(i);\nbuf_j = 1;\n\n if (i % 2 == 0)\n{\nfor (j = 0; j < dst.cols - 1; j += 2)\n{\n dst_buf[j] = src_r_buf[buf_j];\n  dst_buf[j + 1] = src_b_buf[buf_j];\n      buf_j++;\n  }\nif (j < dst.cols)\ndst_buf[j] = src_r_buf[buf_j];\n}\nelse\n{\nfor (j = 0; j < dst.cols - 1; j += 2)\n{\ndst_buf[j] = src_b_buf[buf_j];\ndst_buf[j + 1] = src_r_buf[buf_j];\nbuf_j++;\n}\nif (j < dst.cols)\ndst_buf[j] = src_b_buf[buf_j];\n}\n}\n}\n")
