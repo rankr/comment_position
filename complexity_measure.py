@@ -46,6 +46,7 @@ def preprocess(string):
             lines[i]=lines[i].replace("&&","666")
     return lines
 
+#获得变量个数（包括变量个数和函数的调用个数）
 def get_variable_num(string):
     lines = preprocess(string)
     key_word_list = ['void',  'auto',  'short',  'long',   'int','float','double',  'char', 'struct',
@@ -63,20 +64,20 @@ def get_variable_num(string):
                 lines[i] = lines[i].replace(each_key_word, "")
         #把所有的变量名（包括函数名）放在同一列表variable_list
         variable_list += var_name_pattern.findall(lines[i])
-    #去掉variable_list中重复元素
-    no_repeat_list = list(set(variable_list))
-    #print(no_repeat_list)
-
+    #print(variable_list)
     #把数字开头的元素从no_repeat_list列表中去掉
-    for i in range(len(no_repeat_list)):
-        r = re.match('^\d',no_repeat_list[i])
+    for i in range(len(variable_list)):
+        r = re.match('^\d',variable_list[i])
         #r为none时，说明出现数字开头
         if r:
-            no_repeat_list[i] = ""    
+            variable_list[i] = ""
+    #去掉variable_list中重复元素
+    no_repeat_list = list(set(variable_list))
     #删除空字符串
     no_repeat_list.remove("")
-    #print(no_repeat_list)
+    print(no_repeat_list)
     variable_num = len(no_repeat_list)
+    print("variable number is:",variable_num)
     return variable_num
 
 #获得运算符数目
