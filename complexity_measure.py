@@ -3,7 +3,7 @@
 Created on Thu Mar 28 13:20:13 2019
 
 @author: Guo Yixuan
-@modifier: Pengcheng Li
+//modifier: Pengcheng Li
 """
 
 import re
