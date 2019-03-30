@@ -46,16 +46,19 @@ def preprocess(string):
             lines[i]=lines[i].replace("&&","666")
     return lines
 
-#获得变量个数（包括变量个数和函数的调用个数）
-def get_variable_num(string):
-    lines = preprocess(string)
+#获取C语言关键词表
+def get_key_word_list():
     key_word_list = ['void',  'auto',  'short',  'long',   'int','float','double',  'char', 'struct',
                     'class',   'if' ,  'else' ,'switch',  'case',  'for',    'do', 'while', 'return'
                      'goto','continue','break', 'const', 'sizeof', 'return', 'typdef', 'extern','enum',
                      'register', 'default','union', 'static', 'volatile']
-    variable_num = 0
+    return key_word_list
+
+#获得变量个数（包括变量个数和函数的调用个数）
+def get_variable_num(string):
+    lines = preprocess(string)
+    key_word_list = get_key_word_list()
     var_name_pattern = re.compile("\w+")
-    
     variable_list = []
     for i in range(len(lines)):
         for each_key_word in key_word_list:
@@ -75,10 +78,28 @@ def get_variable_num(string):
     no_repeat_list = list(set(variable_list))
     #删除空字符串
     no_repeat_list.remove("")
-    print(no_repeat_list)
+    #print(no_repeat_list)
     variable_num = len(no_repeat_list)
     print("variable number is:",variable_num)
     return variable_num
+
+#获得函数调用数量（去除重复）
+def get_function_call_num(string):
+    #普通形式调用，形式如：function(parameter 1);
+    normal_call_pattern = re.compile("\w+\(")
+    nomal_call_list = normal_call_pattern.findall(string)
+    #print("normal:",nomal_call_list)
+    
+    #函数模板调用，形如：max<double>(2.0, 3.0);
+    templet_call_pattern = re.compile("<\w+>\(")
+    templet_call_list = templet_call_pattern.findall(string)
+    #print("templet:",templet_call_list)
+    function_call_list = list(set(templet_call_list + nomal_call_list))
+    #print("function call:",function_call_list)
+    function_call_num = len(function_call_list)
+    print("function call number is:", function_call_num)
+    return function_call_num
+        
 
 #获得运算符数目
 def get_operator_num(string):
@@ -147,10 +168,14 @@ def complexity_measure(string):
     
     #运算符密集度(算术运算，位运算，单位：个/行)
     operator_total_num = get_operator_num(string)
-    
+
     op_line_rate = operator_total_num/line_num
     print("operator density is:%.2f each line"%(op_line_rate))
-    return [line_num, max_depth, variable_total_num, operator_total_num, op_line_rate]
+
+    #函数调用数量
+    function_call_num = get_function_call_num(string)
+    
+    return [line_num, max_depth, variable_total_num, operator_total_num, op_line_rate, function_call_num]
 
 if __name__ == '__main__':
     #test code as:
