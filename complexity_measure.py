@@ -3,6 +3,7 @@
 Created on Thu Mar 28 13:20:13 2019
 
 @author: Guo Yixuan
+//modifier: Pengcheng Li
 """
 
 import re
@@ -10,8 +11,8 @@ import re
 #统计代码块的复杂度，度量指标有代码行数、大括号最深层数、变量个数、运算符密集程度
 def complexity_measure(string):
     #行数:line_num
-    line_num = len(re.findall('\n',string))
-    print("line number is :{}".format(line_num))
+    line_num = string.count('\n') + 1#some functions just have one line
+    #print("line number is :{}".format(line_num))
     
     #大括号的最大层数:max_depth
     max_depth = 0
@@ -23,7 +24,7 @@ def complexity_measure(string):
             count_depth -= 1
         if count_depth > max_depth:
             max_depth = count_depth
-    print("max bracket depth is :{}".format(max_depth))
+    #print("max bracket depth is :{}".format(max_depth))
     
     #变量个数，检测在此模块定义的变量的个数，包括指针，
     #有个疑问是如何加入检测自定义的struct变量，这个有点困难
@@ -32,12 +33,13 @@ def complexity_measure(string):
     double_pattern = re.compile("double")
     struct_pattern = re.compile("struct")
     
+    #TODO: 改成所有非保留字的识别，和括号前识别认为是函数调用
     int_num = len(int_pattern.findall(string))
     float_num = len(float_pattern.findall(string))
     double_num = len(double_pattern.findall(string))
     struct_num = len(struct_pattern.findall(string))
     variable_total_num = int_num + float_num + double_num + struct_num
-    print("basic variable number is:", variable_total_num)
+    #print("basic variable number is:", variable_total_num)
     
     #运算符密集度(算术运算，位运算，单位：个/行)
     plus_pattern = re.compile("\+")
@@ -101,9 +103,8 @@ def complexity_measure(string):
 #    print("%:",modulo_num)
 #    print("|:",bit_or_num)
 #    print("&:",bit_and_num)
-    print("total operator number is:",operator_total_num)
+    #print("total operator number is:",operator_total_num)
     op_line_rate = operator_total_num/line_num
-    print("operator density is:%.2f each line"%(op_line_rate))
     return [line_num, max_depth, variable_total_num, operator_total_num, op_line_rate]
 
 if __name__ == '__main__':
