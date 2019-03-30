@@ -1,7 +1,11 @@
 .DS_Store
+*/DS_Store
 __pycache__
 opencv
 *.csv
 *.pyc
 .vscode
+result
 sample.md
+sample.txt
+*.jpg

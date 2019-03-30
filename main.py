@@ -24,7 +24,7 @@ if __name__ == "__main__":
         s, lines_cnt = ecp.code_file_split(i)
         labels = ecp.simple_label(s)
         res = ecp.match_code(s, labels, lines_cnt)
-        for comment,code,label,cnt in res:
+        for comment,code,label,cnt,posi in res:
             w.write(",".join([i, comment.replace('\n', "[enter]").replace(',', '[comma]'), str(cnt), label, code.replace('\n', "[enter]").replace(',', '[comma]')]) + '\n')
         
     w.close()
