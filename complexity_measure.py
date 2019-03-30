@@ -10,6 +10,8 @@ import re
 #获取代码块行数，被complexity_measure(string)调用
 def get_line_num(string):
     line_num = len(re.findall('\n',string))
+    if line_num == 0:
+        line_num = 1
     print("line number is :{}".format(line_num))
     return line_num
 
