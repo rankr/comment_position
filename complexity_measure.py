@@ -3,7 +3,8 @@
 Created on Thu Mar 28 13:20:13 2019
 
 @author: Guo Yixuan
-//modifier: Pengcheng Li
+@modifier: Pengcheng Li
+
 """
 
 import re
@@ -80,7 +81,8 @@ def get_variable_num(string):
     #去掉variable_list中重复元素
     no_repeat_list = list(set(variable_list))
     #删除空字符串
-    no_repeat_list.remove("")
+    if "" in no_repeat_list:
+        no_repeat_list.remove("")
     #print(no_repeat_list)
     variable_num = len(no_repeat_list)
     print("variable number is:",variable_num)
@@ -88,21 +90,43 @@ def get_variable_num(string):
 
 #获得函数调用数量（去除重复）
 def get_function_call_num(string):
+    #除去for while if
+    code_lines = re.split('\n',string)
+    for i in range(len(code_lines)):
+        if "for" in code_lines[i]:
+            code_lines[i] = code_lines[i].replace("for","")
+        if "while" in code_lines[i]:
+            code_lines[i] = code_lines[i].replace("while","")
+        if "if" in code_lines[i]:
+            code_lines[i] = code_lines[i].replace("if","")
     #普通形式调用，形式如：function(parameter 1);
-    normal_call_pattern = re.compile("\w+\(")
-    nomal_call_list = normal_call_pattern.findall(string)
-    #print("normal:",nomal_call_list)
-    
+    normal_call_pattern = re.compile("\w+\(.*?\)[;,]")
+    normal_call_list = []
     #函数模板调用，形如：max<double>(2.0, 3.0);
-    templet_call_pattern = re.compile("<\w+>\(")
-    templet_call_list = templet_call_pattern.findall(string)
-    #print("templet:",templet_call_list)
-    function_call_list = list(set(templet_call_list + nomal_call_list))
-    #print("function call:",function_call_list)
+    template_call_pattern = re.compile("\w+<\w+>\(.*\)[;,]")
+    template_call_list = []
+    #累加每行两种函数调用的数量
+    for i in range(len(code_lines)):
+        normal_call_list += normal_call_pattern.findall(code_lines[i])
+        template_call_list += template_call_pattern.findall(code_lines[i])
+
+    #现在得到的function_call_list是包含参数且以分号（或逗号）结尾的
+    function_call_list = normal_call_list + template_call_list
+    
+    #除去参数和分号（或逗号），只保留函数名
+    function_name = []
+    for i in range(len(function_call_list)):
+        function_name = function_call_list[i].split('(')
+        function_call_list[i] = function_name[0]
+    
+    #去除重复的函数调用
+    function_call_list = list(set(function_call_list))
+    #print(function_call_list)
+
+    #函数调用的总数量(去掉重复)
     function_call_num = len(function_call_list)
-    print("function call number is:", function_call_num)
+    print("function call number is:",function_call_num)
     return function_call_num
-        
 
 #获得运算符数目
 def get_operator_num(string):
