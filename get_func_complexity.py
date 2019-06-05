@@ -9,8 +9,8 @@ import extract_comment_position as ecp
 import complexity_measure as cm
 
 if __name__ == "__main__":
-	c = pd.read_csv("./result/opencv_func_without_comment.csv")
-	w = open('./result/opencv_func_without_comment_stat.csv', 'w')
+	c = pd.read_csv("./result/linux_func_with_comment.csv")
+	w = open('./result/linux_func_with_comment_stat.csv', 'w')
 	w.write("line_num,max_depth,variable_total_num,operator_total_num,op_line_rate\n")
 	for code in c['func']:
 		#filter out comments in code first

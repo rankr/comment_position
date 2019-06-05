@@ -8,15 +8,15 @@ import func
 
 
 if __name__ == "__main__":
-    path = "../cpp_repos/opencv/modules"
+    path = "../cpp_repos/linux-master"
     file_paths = func.cpp_file_select(path)
 
 
     if not os.path.exists('result'):
         os.mkdir('result')
 
-    w_have = open("./result/opencv_func_with_comment.csv", 'w')
-    w_not_have = open("./result/opencv_func_without_comment.csv", 'w')
+    w_have = open("./result/linux_func_with_comment.csv", 'w')
+    w_not_have = open("./result/linux_func_without_comment.csv", 'w')
 
     w_have.write("path,func,comment\n")
     w_not_have.write("path,func\n")

@@ -7,12 +7,12 @@ import func
 import extract_comment_position as ecp
 
 if __name__ == "__main__":
-    path = "opencv/modules"
+    path = "../cpp_repos/linux-master"
     file_paths = func.cpp_file_select(path)
 
     if not os.path.exists('result'):
         os.mkdir('result')
-    w = open("result/comment_position.csv", 'w', encoding = "utf-8")
+    w = open("result/liniux_comment_position.csv", 'w', encoding = "utf-8")
     w.write("file_path,comment_content,comment_end_line_number,matched_label,related_code\n")
     #print(len(file_paths))
     #exit()
